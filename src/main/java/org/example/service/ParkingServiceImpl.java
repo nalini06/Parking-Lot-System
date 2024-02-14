@@ -16,12 +16,22 @@ public class ParkingServiceImpl implements ParkingService{
 
     @Override
     public void parkCar(String regNum, String color) {
-        parkingRepository.parkCar(regNum, color);
+        try{
+            parkingRepository.parkCar(regNum, color);
+        }catch (Exception e){
+            System.out.println("Failed to park the car " + e.getMessage());
+        }
+
     }
 
     @Override
     public void leaveSlot(int slot) {
-        parkingRepository.leaveSlot(slot);
+        try{
+            parkingRepository.leaveSlot(slot);
+        }catch (Exception ex){
+            System.out.println("Failed to leave the slot " + slot + ex.getMessage());
+        }
+
     }
 
     @Override
@@ -43,22 +53,33 @@ public class ParkingServiceImpl implements ParkingService{
 
     @Override
     public void getRegNumsByColor(String color) {
-        Set<String> regNums = parkingRepository.getRegNumsByColor(color);
-        if (regNums.isEmpty()) {
-            System.out.println("No cars found with color " + color);
-        } else {
-            System.out.println(String.join(", ", regNums));
+        try{
+            Set<String> regNums = parkingRepository.getRegNumsByColor(color);
+            if (regNums.isEmpty()) {
+                System.out.println("No cars found with color " + color);
+            } else {
+                System.out.println(String.join(", ", regNums));
+            }
+        }catch (Exception ex){
+            System.out.println(
+                    "Failed to get registration numbers by color " + color +" "+ ex.getMessage());
         }
+
     }
 
     @Override
     public void getSlotByRegNum(String regNum) {
-        Integer slot = parkingRepository.getSlotByRegNum(regNum);
-        if (slot == null) {
-            System.out.println("Not found");
-        } else {
-            System.out.println("Slot number: " + slot);
+        try{
+            Integer slot = parkingRepository.getSlotByRegNum(regNum);
+            if (slot == null) {
+                System.out.println("Not found");
+            } else {
+                System.out.println("Slot number: " + slot);
+            }
+        }catch (Exception ex){
+            System.out.println("Failed to get slotNumber by regNum " + regNum + " " + ex.getMessage());
         }
+
     }
 
 }
